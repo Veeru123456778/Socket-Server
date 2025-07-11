@@ -67,28 +67,3 @@ httpServer.listen(port,()=>{
 });
 
 
-
-
-// console.log("New client connected");
-//   console.log("User ID:", socket.id);
-
-//   socket.on("joinRoom", (workArea) => {
-//       socket.join(workArea); // Join the specified room
-//       console.log(`Client ${socket.id} joined room: ${workArea}`);
-//   });
-
-
-//   socket.on("delivery-request", (payload) => {
-//     io.to(payload.workArea).emit("delivery-response", { message: `Delivery request from ${payload.workArea} and details are: ${payload.orderDetails}` });
-
-//   });
-
-//   socket.on("Message",(payload)=>{
-//     console.log("Message from client:",payload);
-//     io.to(payload.room).emit("Message", payload.message); // Broadcast the message to all other clients
-//   });
-  
-  
-//   socket.on("disconnect", () => {
-//     console.log("Client disconnected: ",socket.id);
-//   });
