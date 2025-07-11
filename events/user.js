@@ -35,6 +35,25 @@ function registerUserHandlers(socket) {
   });
 
   
+  // dummy order ready in user 
+  
+  socket.on("order-ready", (orderPayload) => {
+    const { workArea,workCity, orderId, orderDetails } = orderPayload;
+
+    const targetRoom = `delivery_partner_${workCity}_${workArea}`;
+
+    console.log(`Emitting delivery request to ${targetRoom}`);
+    // Should be handled in frontend of delivery partner
+    socket.to(targetRoom).emit("delivery-request", {
+      orderId,
+      orderDetails,
+      fromVendor: socket.user?.id || "unknown", // if you use JWT
+      time: new Date().toISOString()
+    });
+  });
+
+
+
   }
   
   module.exports = { registerUserHandlers };
