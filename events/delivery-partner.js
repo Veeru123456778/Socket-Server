@@ -1,5 +1,4 @@
 // events/delivery.js
-const axios = require("axios");
 
 function registerDeliveryHandlers(socket) {
 
