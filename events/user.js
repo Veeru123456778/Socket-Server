@@ -15,15 +15,13 @@ function registerUserHandlers(socket) {
       
 
     // 📤 Event: User is searching for vendors
-  socket.on("search-vendors", ({ workArea,workCity, orderDetails }) => {
-    const vendorRoom = `vendor_${workCity}_${workArea}`;
+  socket.on("search-vendors", (payload) => {
+    const { area, city } = payload;
+    const vendorRoom = `vendor_${city}_${area}`;
     
     // Emit to all vendors in that area and should be handled in frontend
-    socket.to(vendorRoom).emit("vendor-search-request", {
-      workArea,
-      orderDetails,
-      userId: socket.user?.id,
-    });
+    socket.to(vendorRoom).emit("vendor-search-request", payload);
+    
 
     console.log(`Search request sent to vendors in ${vendorRoom}`);
   });
@@ -34,27 +32,35 @@ function registerUserHandlers(socket) {
     console.log(`User joined room for order ${orderId}`);
   });
 
-  
-  // dummy order ready in user 
-  
-  socket.on("order-ready", (orderPayload) => {
-    const { workArea,workCity, orderId, orderDetails } = orderPayload;
-
-    const targetRoom = `delivery_partner_${workCity}_${workArea}`;
-
-    console.log(`Emitting delivery request to ${targetRoom}`);
-    // Should be handled in frontend of delivery partner
-    socket.to(targetRoom).emit("delivery-request", {
-      orderId,
-      orderDetails,
-      fromVendor: socket.user?.id || "unknown", // if you use JWT
-      time: new Date().toISOString()
-    });
-  });
-
-
-
   }
   
   module.exports = { registerUserHandlers };
   
+
+
+  
+  
+      // const vendorRoom = `vendor_${workCity}_${workArea}`;
+
+  // socket.to(vendorRoom).emit("vendor-search-request", {
+    //   workArea,
+    //   orderDetails,
+    //   userId: socket.user?.id,
+    // });
+    
+  // dummy order ready in user 
+  
+  // socket.on("order-ready", (orderPayload) => {
+  //   const { workArea,workCity, orderId, orderDetails } = orderPayload;
+
+  //   const targetRoom = `delivery_partner_${workCity}_${workArea}`;
+
+  //   console.log(`Emitting delivery request to ${targetRoom}`);
+  //   // Should be handled in frontend of delivery partner
+  //   socket.to(targetRoom).emit("delivery-request", {
+  //     orderId,
+  //     orderDetails,
+  //     fromVendor: socket.user?.id || "unknown", // if you use JWT
+  //     time: new Date().toISOString()
+  //   });
+  // });
