@@ -33,10 +33,10 @@ function registerVendorHandlers(socket) {
 
       try {
         // 🔄 Update the order in backend
-        await axios.post("https://your-backend.com/api/orders/vendor-accept", {
-          orderId,
-          vendorId,
-        });
+        // await axios.post("https://your-backend.com/api/orders/vendor-accept", {
+        //   orderId,
+        //   vendorId,
+        // });
 
         // ✅ Notify the user via socket
         socket.to(userRoom).emit("vendor-order-accepted", {
