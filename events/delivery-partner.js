@@ -1,4 +1,5 @@
 // events/delivery.js
+const axios = require('axios');
 
 function registerDeliveryHandlers(socket) {
 
@@ -31,10 +32,10 @@ function registerDeliveryHandlers(socket) {
 
       try {
         // Update DB via backend API
-        // await axios.post("https://your-backend.com/api/orders/update-delivery", {
-        //   orderId,
-        //   deliveryPartnerId,
-        // });
+        await axios.post("https://cakewake.onrender.com/api/v1/orders/delivery-accept", {
+          orderId,
+          deliveryPartnerId,
+        });
 
         // Notify vendor and user
         socket.to(`vendor_${vendorId}`).emit("delivery-accepted-by-partner", { orderId, deliveryPartnerId });
@@ -51,9 +52,9 @@ function registerDeliveryHandlers(socket) {
     socket.on("delivery-completed", async ({ orderId, userId, vendorId }) => {
       try {
         // Update order status to completed in your main backend
-        // await axios.post("https://your-backend.com/api/orders/complete-delivery", {
-        //   orderId,
-        // });
+        await axios.post("https://cakewake.onrender.com/api/v1/orders/complete-delivery", {
+          orderId,
+        });
 
         // Notify both user and vendor via Socket
         socket.to(`user_${userId}`).emit("delivery-completed-update", { orderId });
@@ -65,7 +66,6 @@ function registerDeliveryHandlers(socket) {
       }
     });
 
-    
 
   }
   

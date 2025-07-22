@@ -1,10 +1,11 @@
 // events/delivery.js
-  
+const axios = require('axios');
+
 function registerVendorHandlers(socket) {
     
     socket.on("join-work-area", ({workArea,workCity}) => {
         const areaRoom = `vendor_${workCity}_${workArea}`;
-        const personalRoom = `vendor__${socket.user.id}`;
+        const personalRoom = `vendor_${socket.user.id}`;
       
         socket.join(areaRoom);       // for broadcast requests
         socket.join(personalRoom);   // for direct, personal updates
@@ -32,10 +33,10 @@ function registerVendorHandlers(socket) {
 
       try {
         // 🔄 Update the order in backend
-        // await axios.post("https://your-backend.com/api/orders/vendor-accept", {
-        //   orderId,
-        //   vendorId,
-        // });
+        await axios.post("https://cakewake.onrender.com/api/v1/orders/vendor-accept", {
+          orderId,
+          vendorId,
+        });
 
         // ✅ Notify the user via socket
         socket.to(userRoom).emit("vendor-order-accepted", {

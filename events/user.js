@@ -1,4 +1,5 @@
 // events/user.js
+const axios = require('axios');
 
 function registerUserHandlers(socket) {
      
